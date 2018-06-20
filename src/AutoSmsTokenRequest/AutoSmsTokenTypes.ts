@@ -1,5 +1,5 @@
 import * as PropTypes from "prop-types";
-import { CancelTokenSource } from "axios";
+import { CancelTokenSource, AxiosError } from "axios";
 import { InputContext, ModelError, InputContextTypes } from "react-context-form";
 
 export interface AutoSmsTokenRequestState {
@@ -10,9 +10,9 @@ export interface AutoSmsTokenRequestProps {
     groupName: string;
     phoneLength?: number;
 
-    onFailRequest?: () => void;
     onBeforeRequest?: () => void;
     onSuccessRequest?: () => void;
+    onFailRequest?: (error: AxiosError) => void;
     request: (cancelToken: CancelTokenSource) => Promise<any>;
 }
 

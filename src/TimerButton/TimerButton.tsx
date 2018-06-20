@@ -20,6 +20,8 @@ export class TimerButton extends React.Component<TimerButtonProps, TimerButtonSt
 
     public readonly context: TimerButtonContext;
 
+    protected timerId: any = undefined;
+
     constructor(props, context: TimerButtonContext) {
         super(props, context);
 
@@ -30,8 +32,6 @@ export class TimerButton extends React.Component<TimerButtonProps, TimerButtonSt
         context.getStopTimerHandler(this.stopTimer);
         context.getStartTimerHandler(this.startTimer);
     }
-
-    protected timerId: any = undefined;
 
     public componentWillUnmount() {
         clearTimeout(this.timerId);

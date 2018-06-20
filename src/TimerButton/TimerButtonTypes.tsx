@@ -11,7 +11,7 @@ export interface TimerButtonContext {
     getStopTimerHandler: (handler: () => void) => void;
     getStartTimerHandler: (handler: () => void) => void;
     onTimeout: () => void;
-    onClick: () => void;    
+    onClick: () => void;
     disabled: boolean;
 }
 

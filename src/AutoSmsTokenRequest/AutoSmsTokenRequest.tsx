@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import axios, { CancelTokenSource } from "axios";
+import axios, { AxiosError, CancelTokenSource } from "axios";
 import { AutoValidate, addError, FormContext } from "react-context-form";
 
 import {
@@ -76,7 +76,7 @@ export class AutoSmsTokenRequest extends React.Component<AutoSmsTokenRequestProp
             await this.props.request(this.state.cancelToken);
         } catch (error) {
             this.stopTimer && this.stopTimer();
-            this.props.onFailRequest && this.props.onFailRequest();
+            this.props.onFailRequest && this.props.onFailRequest(error);
             this.setState({ cancelToken: undefined });
             addError(this.context as FormContext, error);
             return;
