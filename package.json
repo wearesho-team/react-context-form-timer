@@ -64,9 +64,6 @@
     "react-input-mask": "1.2.2",
     "prop-types": "^15.6.2"
   },
-  "publishConfig": {
-    "registry": "https://npm.horatius.pro"
-  },
   "pre-commit": [
     "lint"
   ]
