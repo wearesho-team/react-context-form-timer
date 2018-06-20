@@ -1,0 +1,57 @@
+{
+  "name": "react-context-form-timer",
+  "version": "0.0.0",
+  "main": "src/index.ts",
+  "typings": "src/index.ts",
+  "description": "Auto-request for sms token",
+  "scripts": {
+    "lint": "./node_modules/.bin/tslint --project ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wearesho-team/eact-context-form-timer.git"
+  },
+  "keywords": [
+    "react-context-form",
+    "react",
+    "typescript"
+  ],
+  "author": "Wearesho",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/wearesho-team/eact-context-form-timer/issues"
+  },
+  "homepage": "https://github.com/wearesho-team/eact-context-form-timer#readme",
+  "devDependencies": {
+    "@types/node": "^10.3.4",
+    "@types/prop-types": "^15.5.3",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "axios": "^0.18.0",
+    "pre-commit": "^1.2.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-context-form": "^2.7.0",
+    "react-context-form-mask": "^2.0.1",
+    "react-dom": "^16.4.1",
+    "react-input-mask": "1.2.2",
+    "ts-node": "^6.1.1",
+    "tslint": "5.6.0",
+    "tslint-react": "3.2.0",
+    "typescript": "^2.9.2"
+  },
+  "peerDependencies": {
+    "axios": "^0.18.0",
+    "react": "^16.4.1",
+    "react-context-form": "^2.7.0",
+    "react-context-form-mask": "^2.0.1",
+    "react-input-mask": "1.2.2",
+    "prop-types": "^15.6.2"
+  },
+  "publishConfig": {
+    "registry": "https://npm.horatius.pro"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}
