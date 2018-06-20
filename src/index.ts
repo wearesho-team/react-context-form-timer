@@ -1,2 +1,3 @@
-export * from "./AutoSmsTokenRequest";
+export * from "./AutoRequestProvider";
+export * from "./PhoneValidator";
 export * from "./TimerButton";

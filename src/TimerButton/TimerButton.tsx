@@ -37,8 +37,14 @@ export class TimerButton extends React.Component<TimerButtonProps, TimerButtonSt
         clearTimeout(this.timerId);
     }
 
+    public componentDidUpdate(oldProps: TimerButtonProps) {
+        if (!this.props.disabled && oldProps.disabled !== this.props.disabled) {
+            this.context.requestSmsToken();
+        }
+    }
+
     public render(): React.ReactNode {
-        const { waitTime, disabled, timerIcon, onClick, ...buttonProps } = this.props;
+        const { waitTime, disabled, onTimeout, timerIcon, onClick, ...buttonProps } = this.props;
 
         return (
             <button
@@ -54,12 +60,17 @@ export class TimerButton extends React.Component<TimerButtonProps, TimerButtonSt
     protected handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         this.props.onClick && this.props.onClick(event);
 
-        this.context.onClick();
+        this.context.requestSmsToken();
     }
 
-    protected startTimer = (): void => {
+    protected startTimer = (): boolean => {
+        if (this.props.disabled || this.context.disabled) {
+            return false;
+        }
+
         clearTimeout(this.timerId);
         this.timerId = setTimeout(this.tick, 1000);
+        return true;
     }
 
     protected stopTimer = (): void => {

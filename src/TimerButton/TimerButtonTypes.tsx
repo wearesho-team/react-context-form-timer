@@ -8,19 +8,19 @@ export interface TimerButtonProps extends React.HTMLProps<HTMLButtonElement> {
 }
 
 export interface TimerButtonContext {
+    getStartTimerHandler: (handler: () => boolean) => void;
     getStopTimerHandler: (handler: () => void) => void;
-    getStartTimerHandler: (handler: () => void) => void;
+    requestSmsToken: () => void;
     onTimeout: () => void;
-    onClick: () => void;
     disabled: boolean;
 }
 
 export const TimerButtonContextTypes: {[P in keyof TimerButtonContext]: PropTypes.Validator<any>} = {
     getStartTimerHandler: PropTypes.func.isRequired,
     getStopTimerHandler: PropTypes.func.isRequired,
+    requestSmsToken: PropTypes.func.isRequired,
     onTimeout: PropTypes.func.isRequired,
-    disabled: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired
+    disabled: PropTypes.bool.isRequired
 };
 
 export const TimerButtonPropTypes: {[P in keyof TimerButtonProps]: PropTypes.Validator<any>} = {

@@ -5,7 +5,10 @@
   "typings": "src/index.ts",
   "description": "Auto-request for sms token",
   "scripts": {
-    "lint": "./node_modules/.bin/tslint --project ."
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/webpack",
+    "coverage": "./node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "lint": "./node_modules/.bin/tslint --project .",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -27,7 +30,16 @@
     "@types/prop-types": "^15.5.3",
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
+    "awesome-typescript-loader": "^3.2.2",
     "axios": "^0.18.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-regenerator-runtime": "^6.5.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.0.5",
     "pre-commit": "^1.2.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
@@ -35,10 +47,14 @@
     "react-context-form-mask": "^2.0.1",
     "react-dom": "^16.4.1",
     "react-input-mask": "1.2.2",
+    "source-map-loader": "^0.2.1",
     "ts-node": "^6.1.1",
     "tslint": "5.6.0",
     "tslint-react": "3.2.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "webpack": "^3.6.0",
+    "webpack-node-externals": "^1.6.0",
+    "webpack-plugin-critical": "^1.0.0"
   },
   "peerDependencies": {
     "axios": "^0.18.0",

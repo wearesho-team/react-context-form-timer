@@ -1,56 +1,53 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import axios, { AxiosError, CancelTokenSource } from "axios";
-import { AutoValidate, addError, FormContext } from "react-context-form";
+import { addError, FormContext } from "react-context-form";
+import Axios, { CancelTokenSource, AxiosError, AxiosResponse } from "axios";
 
+import { TimerButtonContextTypes, TimerButtonContext } from "../TimerButton";
+import { PhoneValidatorContextTypes, PhoneValidatorContext } from "../PhoneValidator";
 import {
-    AutoSmsTokenRequestState,
-    AutoSmsTokenRequestProps,
-    AutoSmsTokenRequestContext,
-    AutoSmsTokenRequestPropTypes,
-    AutoSmsTokenRequestDefaultProps,
-    AutoSmsTokenRequestContextTypes
-} from "./AutoSmsTokenTypes";
-import { TimerButtonContext, TimerButtonContextTypes } from "../TimerButton";
+    AutoRequestProviderProps,
+    AutoRequestProviderState,
+    AutoRequestProviderContext,
+    AutoRequestProviderPropTypes,
+    AutoRequestProviderDefaultProps,
+    AutoRequestProviderContextTypes
+} from "./AutoRequestProviderTypes";
 
-export class AutoSmsTokenRequest extends React.Component<AutoSmsTokenRequestProps, AutoSmsTokenRequestState> {
-    public static readonly defaultProps = AutoSmsTokenRequestDefaultProps;
-    public static readonly contextTypes = AutoSmsTokenRequestContextTypes;
-    public static readonly childContextTypes = TimerButtonContextTypes;
-    public static readonly propTypes = AutoSmsTokenRequestPropTypes;
+export class AutoRequestProvider extends React.Component<AutoRequestProviderProps, AutoRequestProviderState> {
+    public static readonly defaultProps = AutoRequestProviderDefaultProps;
+    public static readonly contextTypes = AutoRequestProviderContextTypes;
+    public static readonly propTypes = AutoRequestProviderPropTypes;
+    public static readonly childContextTypes = {
+        ...PhoneValidatorContextTypes,
+        ...TimerButtonContextTypes
+    };
 
-    public readonly context: AutoSmsTokenRequestContext;
-
-    public state: AutoSmsTokenRequestState = {};
+    public readonly state: AutoRequestProviderState = {};
+    public readonly context: AutoRequestProviderContext;
 
     protected stopTimer?: () => void;
     protected startTimer?: () => void;
 
-    public getChildContext(): TimerButtonContext {
+    public getChildContext(): PhoneValidatorContext & TimerButtonContext {
         return {
             getStartTimerHandler: this.getStartTimerHandler,
             getStopTimerHandler: this.getStopTimerHandler,
+            requestSmsToken: this.requestSmsToken,
             disabled: this.shouldTimerBeDisabled,
-            onTimeout: this.cancelRequest,
-            onClick: this.requestSmsToken
+            onValidated: this.handleValidated,
+            onValidate: this.handleValidate,
+            groupName: this.props.groupName,
+            onTimeout: this.cancelRequest
         };
+    }
+
+    public render(): React.ReactNode {
+        return this.props.children;
     }
 
     public componentWillUnmount() {
         this.state.cancelToken && this.state.cancelToken.cancel();
-    }
-
-    public render(): React.ReactNode {
-        return (
-            <AutoValidate
-                onBlur={false}
-                on={this.handleValidate}
-                groupName={this.props.groupName}
-                onValidated={this.handleValidated}
-            >
-                {this.props.children as JSX.Element}
-            </AutoValidate>
-        );
     }
 
     protected getStopTimerHandler = (handler: () => void): void => {
@@ -62,18 +59,18 @@ export class AutoSmsTokenRequest extends React.Component<AutoSmsTokenRequestProp
     }
 
     protected requestSmsToken = async () => {
-        if (this.state.cancelToken) {
+        if (this.state.cancelToken || (this.startTimer && !this.startTimer())) {
             return;
         }
 
-        this.startTimer && this.startTimer();
-        this.state.cancelToken = axios.CancelToken.source();
+        this.state.cancelToken = Axios.CancelToken.source();
         this.forceUpdate();
 
         this.props.onBeforeRequest && this.props.onBeforeRequest();
 
+        let response: AxiosResponse<any>;
         try {
-            await this.props.request(this.state.cancelToken);
+            response = await this.props.request(this.state.cancelToken);
         } catch (error) {
             this.stopTimer && this.stopTimer();
             this.props.onFailRequest && this.props.onFailRequest(error);
@@ -83,7 +80,7 @@ export class AutoSmsTokenRequest extends React.Component<AutoSmsTokenRequestProp
         }
 
         this.stopTimer && this.stopTimer();
-        this.props.onSuccessRequest && this.props.onSuccessRequest();
+        this.props.onSuccessRequest && this.props.onSuccessRequest(response);
         this.setState({ cancelToken: undefined });
     }
 
@@ -113,7 +110,9 @@ export class AutoSmsTokenRequest extends React.Component<AutoSmsTokenRequestProp
         this.stopTimer && this.stopTimer();
     }
 
-    private filterPhone = (value: string): string => {
-        return value.replace(/\D/g, "");
+    private filterPhone = (value?: string): string => {
+        return value
+            ? value.replace(/\D/g, "")
+            : "";
     }
 }
