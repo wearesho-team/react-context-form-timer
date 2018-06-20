@@ -29,4 +29,4 @@ where
 - `request` - will call on request.
 - `waitTime` - count of seconds. Optional. Default = `30`.
 - `timerIcon` - markup, that rendered on unactive timer. Optional. Default = `<i className="icon icon-sms"/>`
-- `onTimeout` - will call when time is over. Optinal.
+- `onTimeout` - will call when time is over. Optional.
