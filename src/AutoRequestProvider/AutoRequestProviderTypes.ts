@@ -4,6 +4,7 @@ import { InputContext, ModelError, InputContextTypes } from "react-context-form"
 
 export interface AutoRequestProviderState {
     cancelToken?: CancelTokenSource;
+    isValid: boolean;
 }
 
 export interface AutoRequestProviderProps {

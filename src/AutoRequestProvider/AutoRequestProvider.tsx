@@ -23,7 +23,9 @@ export class AutoRequestProvider extends React.Component<AutoRequestProviderProp
         ...TimerButtonContextTypes
     };
 
-    public readonly state: AutoRequestProviderState = {};
+    public readonly state: AutoRequestProviderState = {
+        isValid: false
+    };
     public readonly context: AutoRequestProviderContext;
 
     protected stopTimer?: () => void;
@@ -100,8 +102,13 @@ export class AutoRequestProvider extends React.Component<AutoRequestProviderProp
             || this.filterPhone(this.context.value).length !== this.props.phoneLength;
     }
 
-    protected handleValidated = (valid: boolean): void => {
-        valid && this.requestSmsToken();
+    protected handleValidated = (isValid: boolean): void => {
+        if (this.state.isValid === isValid) {
+            return;
+        }
+
+        this.setState({ isValid });
+        isValid && this.requestSmsToken();
     }
 
     protected cancelRequest = (): void => {
