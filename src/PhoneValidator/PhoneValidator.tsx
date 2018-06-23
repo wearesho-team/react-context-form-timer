@@ -17,7 +17,6 @@ export class PhoneValidator extends React.Component<PhoneValidatorProps> {
     public render(): React.ReactNode {
         return (
             <AutoValidate
-                onBlur={false}
                 on={this.context.onValidate}
                 groupName={this.context.groupName}
                 onValidated={this.context.onValidated}
