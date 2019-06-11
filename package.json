@@ -1,6 +1,6 @@
 {
   "name": "react-context-form-timer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "src/index.ts",
   "typings": "src/index.ts",
   "description": "Auto-request for sms token",
