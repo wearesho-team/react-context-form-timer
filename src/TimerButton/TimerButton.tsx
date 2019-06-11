@@ -51,6 +51,7 @@ export class TimerButton extends React.Component<TimerButtonProps, TimerButtonSt
                 {...buttonProps}
                 onClick={this.handleClick}
                 disabled={this.timerId !== undefined || this.context.disabled || disabled}
+                type="submit"
             >
                 {this.InnerLayout}
             </button>

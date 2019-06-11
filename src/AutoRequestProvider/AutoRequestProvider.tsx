@@ -29,7 +29,7 @@ export class AutoRequestProvider extends React.Component<AutoRequestProviderProp
     public readonly context: AutoRequestProviderContext;
 
     protected stopTimer?: () => void;
-    protected startTimer?: () => void;
+    protected startTimer?: () => boolean;
 
     public getChildContext(): PhoneValidatorContext & TimerButtonContext {
         return {
@@ -56,7 +56,7 @@ export class AutoRequestProvider extends React.Component<AutoRequestProviderProp
         this.stopTimer = handler;
     }
 
-    protected getStartTimerHandler = (handler: () => void): void => {
+    protected getStartTimerHandler = (handler: () => boolean): void => {
         this.startTimer = handler;
     }
 
